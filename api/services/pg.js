@@ -20,7 +20,7 @@ const sequelize = new Sequelize({
 const connectDB = async () => {
   try {
     await sequelize.authenticate();
-    await sequelize.sync({ force: true });
+    await sequelize.sync();
     console.log(
       `Server connected to postgressdb on ${process.env.PG_HOST}:${process.env.PG_PORT}`.green
     );
