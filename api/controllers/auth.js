@@ -3,6 +3,7 @@ const asyncHandler = require('../middleware/async');
 const db = require('../models');
 const ErrorResponse = require('../utils/errorResponse');
 const sendTokenResponse = require('../utils/sendTokenResponse');
+const { getSaltHashPassword } = require('../utils/common');
 
 const signin = asyncHandler(async (request, response, next) => {
   const { email, password } = request.body;
@@ -28,19 +29,17 @@ const signin = asyncHandler(async (request, response, next) => {
 });
 
 const signup = asyncHandler(async (request, response, next) => {
-  let { username, email, password } = request.body;
+  const { username, email, password } = request.body;
 
-  const salt = await bcrypt.genSalt(10);
-  password = await bcrypt.hash(password, salt);
-
-  let user = await db.users.findOne({ email });
+  const user = await db.users.findOne({ where: { email } });
   if (user) {
     return next(new ErrorResponse('User account already exists', 400));
   } else {
-    user = await db.users.create({
+    const saltedPassword = await getSaltHashPassword(password);
+    await db.users.create({
       username: username,
       email,
-      password,
+      password: saltedPassword,
     });
   }
 

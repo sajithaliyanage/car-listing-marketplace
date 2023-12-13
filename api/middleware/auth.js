@@ -17,7 +17,7 @@ const protect = asyncHandler(async (request, response, next) => {
 
   try {
     const verifiedToken = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await db.users.findOne({ where: { email: verifiedToken.id } });
+    const user = await db.users.findOne({ where: { email: verifiedToken.userId } });
     if (!user) {
       return next(new ErrorResponse('Not authorized to access this route', 401));
     }
@@ -32,7 +32,7 @@ const authorizeAdmin = asyncHandler(async (request, response, next) => {
   const user = request.user;
 
   if (!user.isAdmin) {
-    return next(new ErrorResponse('Not authorized to access this route', 401));
+    return next(new ErrorResponse('Only admins can access this route', 401));
   }
 
   next();

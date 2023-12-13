@@ -13,6 +13,8 @@ const { gracefulShutdown } = require('./utils/gracefulShutdown');
 const errorHandler = require('./middleware/error');
 
 const auth = require('./routes/auth');
+const users = require('./routes/users');
+const { createAdminUser } = require('./utils/token');
 
 const runWorker = () => {
   const app = express();
@@ -35,6 +37,7 @@ const runWorker = () => {
   }
 
   app.use('/api/v1/auth', auth);
+  app.use('/api/v1/users', users);
   app.use(errorHandler);
 
   const port = process.env.PORT;
@@ -61,6 +64,7 @@ const initServer = async () => {
   try {
     colors.enable();
     await connectDB();
+    await createAdminUser();
 
     runWorker();
   } catch (error) {
