@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 
-exports.validQueryFields = ['search', 'filter'];
+exports.validQueryFields = ['search', 'filter', 'page', 'limit'];
 exports.validSearchFields = ['model', 'brand'];
 exports.validFilterFields = [
   'minPrice',
@@ -27,7 +27,27 @@ exports.stripIllegalCharacters = (value) => {
 };
 
 exports.isValidQuery = (query, fields) => {
-  console.log(query);
-  console.log(fields);
+  if (!query) {
+    return true;
+  }
   return Object.keys(query).every((key) => fields.includes(key));
+};
+
+exports.setPagination = (count, page, limit) => {
+  let pagination = {};
+  if (count > page * limit) {
+    pagination.next = {
+      page: page + 1,
+      limit,
+    };
+  }
+
+  if (page > 1) {
+    pagination.prev = {
+      page: page - 1,
+      limit,
+    };
+  }
+
+  return pagination;
 };

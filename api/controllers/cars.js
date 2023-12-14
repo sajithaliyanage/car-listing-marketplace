@@ -9,6 +9,7 @@ const {
   validSearchFields,
   validFilterFields,
   validQueryFields,
+  setPagination,
 } = require('../utils/common');
 
 const addCars = asyncHandler(async (request, response, next) => {
@@ -42,7 +43,9 @@ const getCars = asyncHandler(async (request, response, next) => {
   ) {
     const validParameterFormat = `search[${validSearchFields.join(
       ']=<value> | search['
-    )}]=<value> | filter[${validFilterFields.join(']=<value> | filter[')}]=<value>`;
+    )}]=<value> | filter[${validFilterFields.join(
+      ']=<value> | filter['
+    )}]=<value> | page=<> | limit=<>`;
     return next(
       new ErrorResponse(
         `Invalid query parameter provided. Valid parameters are: ${validParameterFormat}`,
@@ -114,14 +117,24 @@ const getCars = asyncHandler(async (request, response, next) => {
     }
   }
 
-  const cars = await db.cars.findAll({
+  let page = parseInt(request.query.page) || 1;
+  let limit = parseInt(request.query.limit) || 5;
+  let offset = page === 1 ? 0 : (page - 1) * limit;
+
+  const { count, rows: paginatedCars } = await db.cars.findAndCountAll({
     where: { [Op.and]: findQuery },
+    limit,
+    offset,
+    order: [['id', 'ASC']],
     attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
   });
 
+  const pagination = setPagination(count, page, limit);
   response.status(200).json({
     success: true,
-    data: cars,
+    count,
+    pagination: Object.keys(pagination).length > 0 ? pagination : undefined,
+    data: paginatedCars,
   });
 });
 

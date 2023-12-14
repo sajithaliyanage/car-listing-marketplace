@@ -1,16 +1,27 @@
 const asyncHandler = require('../middleware/async');
 const db = require('../models');
+const { setPagination } = require('../utils/common');
 const ErrorResponse = require('../utils/errorResponse');
 
 const getUsers = asyncHandler(async (request, response, next) => {
-  const users = await db.users.findAll({
+  let page = parseInt(request.query.page) || 1;
+  let limit = parseInt(request.query.limit) || 5;
+  let offset = page === 1 ? 0 : (page - 1) * limit;
+
+  const { count, rows: paginatedUsers } = await db.users.findAndCountAll({
     where: {},
+    limit,
+    offset,
+    order: [['id', 'ASC']],
     attributes: ['id', 'username', 'email'],
   });
 
+  const pagination = setPagination(count, page, limit);
   response.status(200).json({
     success: true,
-    data: users,
+    count,
+    pagination: Object.keys(pagination).length > 0 ? pagination : undefined,
+    data: paginatedUsers,
   });
 });
 
