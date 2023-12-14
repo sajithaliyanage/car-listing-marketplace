@@ -13,7 +13,7 @@ const signin = asyncHandler(async (request, response, next) => {
 
   const user = await db.users.findOne({
     where: { email },
-    attributes: ['password'],
+    attributes: ['id', 'password'],
   });
 
   if (!user) {
@@ -25,7 +25,7 @@ const signin = asyncHandler(async (request, response, next) => {
     return next(new ErrorResponse('Invalid credentials', 401));
   }
 
-  sendTokenResponse(email, 200, response);
+  sendTokenResponse(user.id, 200, response);
 });
 
 const signup = asyncHandler(async (request, response, next) => {

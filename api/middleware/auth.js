@@ -17,10 +17,14 @@ const protect = asyncHandler(async (request, response, next) => {
 
   try {
     const verifiedToken = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await db.users.findOne({ where: { email: verifiedToken.userId } });
+    const user = await db.users.findOne({
+      where: { id: verifiedToken.userId },
+      attributes: ['id', 'isAdmin'],
+    });
     if (!user) {
       return next(new ErrorResponse('Not authorized to access this route', 401));
     }
+
     request.user = user;
     next();
   } catch (error) {

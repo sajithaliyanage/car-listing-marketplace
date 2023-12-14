@@ -1,6 +1,15 @@
+const { Op } = require('sequelize');
+
 const asyncHandler = require('../middleware/async');
 const db = require('../models');
 const ErrorResponse = require('../utils/errorResponse');
+const {
+  stripIllegalCharacters,
+  isValidQuery,
+  validSearchFields,
+  validFilterFields,
+  validQueryFields,
+} = require('../utils/common');
 
 const addCars = asyncHandler(async (request, response, next) => {
   const { cars } = request.body;
@@ -25,10 +34,88 @@ const addCars = asyncHandler(async (request, response, next) => {
 });
 
 const getCars = asyncHandler(async (request, response, next) => {
-  const { query, filter } = request.query;
+  const { search, filter } = request.query;
+  if (
+    !isValidQuery(request.query, validQueryFields) ||
+    !isValidQuery(search, validSearchFields) ||
+    !isValidQuery(filter, validFilterFields)
+  ) {
+    const validParameterFormat = `search[${validSearchFields.join(
+      ']=<value> | search['
+    )}]=<value> | filter[${validFilterFields.join(']=<value> | filter[')}]=<value>`;
+    return next(
+      new ErrorResponse(
+        `Invalid query parameter provided. Valid parameters are: ${validParameterFormat}`,
+        400
+      )
+    );
+  }
+
+  db.search.create({
+    userId: request.user.id,
+    search: JSON.stringify(search),
+    filter: JSON.stringify(filter),
+  });
+
+  let findQuery = [];
+  if (search) {
+    if (search.brand) {
+      findQuery.push({
+        brand: { [Op.iLike]: stripIllegalCharacters(search.brand) },
+      });
+    }
+    if (search.model) {
+      findQuery.push({
+        model: { [Op.iLike]: stripIllegalCharacters(search.model) },
+      });
+    }
+  }
+
+  if (filter) {
+    if (filter.color) {
+      findQuery.push({
+        color: { [Op.iLike]: stripIllegalCharacters(filter.color) },
+      });
+    }
+    if (filter.minPrice) {
+      findQuery.push({
+        price: { [Op.gte]: parseFloat(filter.minPrice) },
+      });
+    }
+    if (filter.maxPrice) {
+      findQuery.push({
+        price: { [Op.lte]: parseFloat(filter.maxPrice) },
+      });
+    }
+    if (filter.year) {
+      findQuery.push({
+        year: parseInt(filter.year),
+      });
+    }
+    if (filter.minYear) {
+      findQuery.push({
+        year: { [Op.gte]: parseInt(filter.minYear) },
+      });
+    }
+    if (filter.maxYear) {
+      findQuery.push({
+        year: { [Op.lte]: parseInt(filter.maxYear) },
+      });
+    }
+    if (filter.minMileage) {
+      findQuery.push({
+        mileage: { [Op.gte]: parseInt(filter.minMileage) },
+      });
+    }
+    if (filter.maxMileage) {
+      findQuery.push({
+        mileage: { [Op.lte]: parseInt(filter.maxMileage) },
+      });
+    }
+  }
 
   const cars = await db.cars.findAll({
-    where: {},
+    where: { [Op.and]: findQuery },
     attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
   });
 
