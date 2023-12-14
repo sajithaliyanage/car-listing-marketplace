@@ -32,7 +32,7 @@ const authorizeAdmin = asyncHandler(async (request, response, next) => {
   const user = request.user;
 
   if (!user.isAdmin) {
-    return next(new ErrorResponse('Only admins can access this route', 401));
+    return next(new ErrorResponse('Only admins can access this route', 403));
   }
 
   next();

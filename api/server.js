@@ -14,6 +14,7 @@ const errorHandler = require('./middleware/error');
 
 const auth = require('./routes/auth');
 const users = require('./routes/users');
+const cars = require('./routes/cars');
 const { createAdminUser } = require('./utils/token');
 
 const runWorker = () => {
@@ -38,6 +39,7 @@ const runWorker = () => {
 
   app.use('/api/v1/auth', auth);
   app.use('/api/v1/users', users);
+  app.use('/api/v1/cars', cars);
   app.use(errorHandler);
 
   const port = process.env.PORT;

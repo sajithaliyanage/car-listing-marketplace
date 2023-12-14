@@ -23,7 +23,7 @@ const markAsAdmin = asyncHandler(async (request, response, next) => {
   user.isAdmin = true;
   await user.save();
 
-  response.status(201).json({
+  response.status(200).json({
     success: true,
     data: {},
   });
