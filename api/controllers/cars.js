@@ -122,11 +122,25 @@ const getCars = asyncHandler(async (request, response, next) => {
   let offset = page === 1 ? 0 : (page - 1) * limit;
 
   const { count, rows: paginatedCars } = await db.cars.findAndCountAll({
+    distinct: true,
     where: { [Op.and]: findQuery },
     limit,
     offset,
     order: [['id', 'ASC']],
-    attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
+    attributes: { exclude: ['createdAt', 'updatedAt'] },
+    include: [
+      {
+        model: db.carBookings,
+        required: false,
+        where: {
+          date: {
+            [Op.gte]: new Date(),
+          },
+        },
+        attributes: ['date', 'referenceNumber'],
+        as: 'bookings',
+      },
+    ],
   });
 
   const pagination = setPagination(count, page, limit);
