@@ -11,6 +11,11 @@ The Car Listing Marketplace service is built with NodeJS and ExpressJS. It lever
 - **Search/Filter and Pagination Support:** API supports search and filter capabilities for cars, including pagination.
 - **Booking Integration:** Car listings dynamically reflect whether a car has been booked by someone, displaying relevant booking dates.
 
+## Live Service URL
+This service has been hosted in a free tier platform. 
+```sh
+https://car-marketplace.onrender.com/api/v1/<resource>
+```
 ## Getting Started
 
 Please follow the below steps to run the service.

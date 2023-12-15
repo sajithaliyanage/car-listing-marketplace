@@ -31,22 +31,19 @@ const signin = asyncHandler(async (request, response, next) => {
 const signup = asyncHandler(async (request, response, next) => {
   const { username, email, password } = request.body;
 
-  const user = await db.users.findOne({ where: { email } });
+  let user = await db.users.findOne({ where: { email } });
   if (user) {
     return next(new ErrorResponse('User account already exists', 400));
   } else {
     const saltedPassword = await getSaltHashPassword(password);
-    await db.users.create({
+    user = await db.users.create({
       username: username,
       email,
       password: saltedPassword,
     });
   }
 
-  response.status(200).json({
-    success: true,
-    data: {},
-  });
+  sendTokenResponse(user.id, 200, response);
 });
 
 const signout = asyncHandler(async (request, response) => {
