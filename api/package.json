@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "start": "node server",
     "dev": "JWT_SECRET=UJl5Y8nK7b7TNjz8 NODE_ENV=development HOST=localhost PORT=8080 PG_DATABASE=car_marketplace PG_HOST=127.0.0.1 PG_PORT=5432 PG_USERNAME=postgres PG_PASSWORD=admin nodemon server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -1,0 +1,38 @@
+#   port mappings
+#
+#   service         local -> host
+#   ------------------------------
+#   api             8080    -> 8080
+#   postgress       5432    -> 5432
+
+version: '3.3'
+services:
+  postgres:
+    image: postgres:latest
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=car_marketplace
+  api:
+    links:
+      - postgres
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: 'production'
+      HOST: '0.0.0.0'
+      JWT_SECRET: UJl5Y8nK7b7TNjz8
+      PORT: 8080
+      PG_DATABASE: car_marketplace
+      PG_HOST: 'postgres'
+      PG_PORT: 5432
+      PG_USERNAME: postgres
+      PG_PASSWORD: admin
+    ports:
+      - 8080:8080
+    restart: always
+    stdin_open: true
+    tty: true
