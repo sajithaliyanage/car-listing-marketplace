@@ -9,12 +9,12 @@ exports.generateAuthToken = (userId) => {
 };
 
 exports.createAdminUser = async () => {
-  const saltedPassword = await getSaltHashPassword('Admin@123');
+  const saltedPassword = await getSaltHashPassword(process.env.ADMIN_PASSWORD);
   await db.users.findOrCreate({
-    where: { email: 'admin@carmarketplace.com' },
+    where: { email: process.env.ADMIN_EMAIL },
     defaults: {
       username: 'admin',
-      email: 'admin@carmarketplace.com',
+      email: process.env.ADMIN_EMAIL,
       password: saltedPassword,
       isAdmin: true,
     },

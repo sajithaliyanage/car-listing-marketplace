@@ -31,6 +31,8 @@ services:
       PG_PORT: 5432
       PG_USERNAME: postgres
       PG_PASSWORD: admin
+      ADMIN_EMAIL: 'admin@carmarketplace.com'
+      ADMIN_PASSWORD: 'Admin@123'
     ports:
       - 8080:8080
     restart: always
