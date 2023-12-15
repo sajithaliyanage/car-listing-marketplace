@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "3d275dee-6800-45eb-92e0-aafd247ad242",
+		"_postman_id": "36560574-8560-421f-8411-fc66f9e508c8",
 		"name": "car-listing-marketplace",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "2585618",
-		"_collection_link": "https://interstellar-robot-872634.postman.co/workspace/SOFFLIX-HRM~fec4ee75-7070-4ec6-b7c0-780619ec16e1/collection/2585618-3d275dee-6800-45eb-92e0-aafd247ad242?action=share&source=collection_link&creator=2585618"
+		"_collection_link": "https://interstellar-robot-872634.postman.co/workspace/SOFFLIX-HRM~fec4ee75-7070-4ec6-b7c0-780619ec16e1/collection/2585618-36560574-8560-421f-8411-fc66f9e508c8?action=share&source=collection_link&creator=2585618"
 	},
 	"item": [
 		{
@@ -26,11 +26,12 @@
 						},
 						"url": {
 							"raw": "https://car-marketplace.onrender.com/api/v1/auth/signup",
-							"protocol": "http",
+							"protocol": "https",
 							"host": [
-								"localhost"
+								"car-marketplace",
+								"onrender",
+								"com"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"v1",
@@ -57,11 +58,12 @@
 						},
 						"url": {
 							"raw": "https://car-marketplace.onrender.com/api/v1/auth/signin",
-							"protocol": "http",
+							"protocol": "https",
 							"host": [
-								"localhost"
+								"car-marketplace",
+								"onrender",
+								"com"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"v1",
@@ -91,11 +93,12 @@
 						},
 						"url": {
 							"raw": "https://car-marketplace.onrender.com/api/v1/auth/signout",
-							"protocol": "http",
+							"protocol": "https",
 							"host": [
-								"localhost"
+								"car-marketplace",
+								"onrender",
+								"com"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"v1",
@@ -136,11 +139,12 @@
 						},
 						"url": {
 							"raw": "https://car-marketplace.onrender.com/api/v1/users",
-							"protocol": "http",
+							"protocol": "https",
 							"host": [
-								"localhost"
+								"car-marketplace",
+								"onrender",
+								"com"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"v1",
@@ -172,11 +176,12 @@
 						},
 						"url": {
 							"raw": "https://car-marketplace.onrender.com/api/v1/users/<userId>/mark-as-admin",
-							"protocol": "http",
+							"protocol": "https",
 							"host": [
-								"localhost"
+								"car-marketplace",
+								"onrender",
+								"com"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"v1",
@@ -215,11 +220,12 @@
 						},
 						"url": {
 							"raw": "https://car-marketplace.onrender.com/api/v1/cars",
-							"protocol": "http",
+							"protocol": "https",
 							"host": [
-								"localhost"
+								"car-marketplace",
+								"onrender",
+								"com"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"v1",
@@ -254,11 +260,12 @@
 						},
 						"url": {
 							"raw": "https://car-marketplace.onrender.com/api/v1/cars?search[brand]=<>&search[model]=<>&filter[color]=<>&filter[year]=<>&filter[minPrice]=<>&filter[maxPrice]=<>&filter[minMileage]=<>&filter[maxMileage]=<>&filter[minYear]=<>&filter[maxYear]=<>&page=<>&limit=<>",
-							"protocol": "http",
+							"protocol": "https",
 							"host": [
-								"localhost"
+								"car-marketplace",
+								"onrender",
+								"com"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"v1",
@@ -343,11 +350,12 @@
 						},
 						"url": {
 							"raw": "https://car-marketplace.onrender.com/api/v1/cars/<carId>",
-							"protocol": "http",
+							"protocol": "https",
 							"host": [
-								"localhost"
+								"car-marketplace",
+								"onrender",
+								"com"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"v1",
@@ -385,11 +393,12 @@
 						},
 						"url": {
 							"raw": "https://car-marketplace.onrender.com/api/v1/bookings",
-							"protocol": "http",
+							"protocol": "https",
 							"host": [
-								"localhost"
+								"car-marketplace",
+								"onrender",
+								"com"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"v1",
@@ -424,11 +433,12 @@
 						},
 						"url": {
 							"raw": "https://car-marketplace.onrender.com/api/v1/bookings/<referenceNumber>",
-							"protocol": "http",
+							"protocol": "https",
 							"host": [
-								"localhost"
+								"car-marketplace",
+								"onrender",
+								"com"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"v1",
@@ -461,11 +471,12 @@
 						},
 						"url": {
 							"raw": "https://car-marketplace.onrender.com/api/v1/bookings/<referenceNumber>",
-							"protocol": "http",
+							"protocol": "https",
 							"host": [
-								"localhost"
+								"car-marketplace",
+								"onrender",
+								"com"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"v1",
